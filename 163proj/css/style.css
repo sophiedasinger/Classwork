@@ -1,0 +1,72 @@
+h1 {
+	text-align: center;
+	font-family: 'advent pro';
+	font-size: 10em;
+	color:white;
+}
+
+#header {
+	background-color: #3b4b98;
+
+}
+
+#nav {
+	background-color: #7581b6;
+
+
+
+}
+ul
+{
+    list-style-type: none;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+li {
+	display:inline;
+	font-family: 'raleway';
+	color:white;
+	font-size:2em;
+	padding:20px;
+}
+
+a {
+	text-decoration: none;
+	color:white;
+}
+
+
+
+a:hover {
+	color:#3b4b98;
+	text-decoration: none;
+}
+
+p {
+	font-family: 'raleway';
+	font-size: 1.5em;
+}
+
+
+
+#nav.stick {
+    position: fixed;
+    top: 0;
+    z-index: 10000;
+    float:right;
+    width:100vw;
+    overflow-x:hidden;
+}
+
+.link {
+	color:black;
+	text-decoration: underline;
+}
+
+h3 {
+	font-family: 'raleway';
+	text-align: center;
+}
+
