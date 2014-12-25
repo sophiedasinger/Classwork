@@ -12,6 +12,13 @@ ArrayList[] hulls;
 boolean DONE;
 Jarvis myMarch;
 
+class aColor {
+ float r, g, b;
+}
+
+aColor[] colors;
+  
+
 int compare(PVector a, PVector b) {
   if (a.z < b.z)
      return -1;
@@ -21,6 +28,13 @@ int compare(PVector a, PVector b) {
 }
 
 void setup() {
+  colors = new aColor[20];
+  for(int i =0; i<20; i++) {
+    colors[i] = new aColor();
+    colors[i].r=random(255);
+    colors[i].g=random(255);
+    colors[i].b=random(255);
+  }
   DONE = false;
   size(1000, 500); 
   background(51);
@@ -69,21 +83,22 @@ void dataSetup() {
 
 
 void draw() {
-            
+
             background(255);
             ellipseMode(RADIUS);
             smooth();
             strokeWeight(2);
             noFill();
-            stroke(128);
-            //beginShape();
             for (int i=0; i<pointarray.length; i++) {
+              stroke(0, 0, 0);
               strokeWeight(5);
               float x_val = pointarray[i].x;
               float y_val = pointarray[i].y; 
               point(x_val, y_val);
             }
-            if(DONE == true) {
+            /*if(DONE == true) {
+              frameRate(0.5);
+              stroke(76, 0, 163);
               noLoop();
               println("HELLO");
               beginShape();
@@ -92,13 +107,17 @@ void draw() {
                 vertex(temp.get(i).x, temp.get(i).y);
                 }
               endShape(CLOSE);
-            }
-            if(DONE != true) {
+            }*/
+            //frameRate(2);
+            strokeWeight(1);
+            //if(DONE != true) {
             if (k>0 && myScans[k-1].done == true) {
 
               for (int i = 0; i < k; i++) {
+                stroke(colors[i].r, colors[i].g, colors[i].b);
                 ArrayList temp = hulls[i];
                 println(hulls[i]);
+                //stroke(random(255), random(255), random(255));
                 beginShape();
                 for(int p = 0; p<temp.size(); p++) {
                   PVector temp2 = (PVector)temp.get(p);
@@ -107,6 +126,7 @@ void draw() {
                 endShape(CLOSE);
               }
               if(myScans[k].done == true && k == (numSets-1)) {
+                stroke(colors[k].r, colors[k].g, colors[k].b);
                 ArrayList temp = hulls[k];
                 println(hulls[k]);
                 beginShape();
@@ -125,6 +145,7 @@ void draw() {
             hulls[k] = new ArrayList();
             beginShape();
             for(int i = 0; i < myScans[k].M; i++) {
+              stroke(colors[k].r, colors[k].g, colors[k].b);
               vertex(myScans[k].pts[i].x, myScans[k].pts[i].y); 
                //println(i);
               /* add to hull array */
@@ -155,7 +176,7 @@ void draw() {
                  k++;
                }
             } 
-            }
+            //s}
 }
 
 /* Generates a random set of points of size NUM_POINTS
@@ -340,4 +361,5 @@ class Jarvis {
   }
 }
   
+
 
