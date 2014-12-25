@@ -116,7 +116,7 @@ void draw() {
               for (int i = 0; i < k; i++) {
                 stroke(colors[i].r, colors[i].g, colors[i].b);
                 ArrayList temp = hulls[i];
-                println(hulls[i]);
+                //println(hulls[i]);
                 //stroke(random(255), random(255), random(255));
                 beginShape();
                 for(int p = 0; p<temp.size(); p++) {
@@ -128,7 +128,7 @@ void draw() {
               if(myScans[k].done == true && k == (numSets-1)) {
                 stroke(colors[k].r, colors[k].g, colors[k].b);
                 ArrayList temp = hulls[k];
-                println(hulls[k]);
+                //println(hulls[k]);
                 beginShape();
                 for(int p = 0; p<temp.size(); p++) {
                   PVector temp2 = (PVector)temp.get(p);
@@ -141,7 +141,7 @@ void draw() {
                  
               
             strokeWeight(2);
-            println("K: " + k);
+            //println("K: " + k);
             hulls[k] = new ArrayList();
             beginShape();
             for(int i = 0; i < myScans[k].M; i++) {
@@ -215,7 +215,9 @@ void convexHull() {
 
 }
 
-
+void mousePressed() {
+  setup();
+}
 
 
 
@@ -300,9 +302,7 @@ boolean cw(PVector p1, PVector p2, PVector p3) {
   return (p2.x-p1.x)*(p3.y-p1.y) - (p2.y-p1.y)*(p3.x-p1.x) > 0;
 }
 
-void mousePressed() {
-  dataSetup();
-}
+
 
 
 

@@ -79,9 +79,7 @@ boolean cw(PVector p1, PVector p2, PVector p3) {
   return (p2.x-p1.x)*(p3.y-p1.y) - (p2.y-p1.y)*(p3.x-p1.x) > 0;
 }
 
-void mousePressed() {
-  dataSetup();
-}
+
 
 
 
