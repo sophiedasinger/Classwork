@@ -9,6 +9,8 @@ int k;
 /* ADDED */
 GrahamScan[] myScans;
 ArrayList[] hulls;
+boolean DONE;
+Jarvis myMarch;
 
 int compare(PVector a, PVector b) {
   if (a.z < b.z)
@@ -17,16 +19,9 @@ int compare(PVector a, PVector b) {
     return 1;
   return 0;
 }
-/* JAVASCRIPT */
-/*function compare(a,b) {
-  if (a.z < b.z)
-     return -1;
-  if (a.z > b.z)
-    return 1;
-  return 0;
-};*/
 
 void setup() {
+  DONE = false;
   size(1000, 500); 
   background(51);
   strokeWeight(5);
@@ -36,12 +31,13 @@ void setup() {
   convexHull();
   hulls = new ArrayList[numSets];
   /* ADDED */
+  myMarch = new Jarvis();
   myScans = new GrahamScan[numSets];
   for(int i = 0; i < numSets; i++) {
     myScans[i] = new GrahamScan();
   }
   dataSetup();
-  frameRate(2);
+  frameRate(10);
    
 }
 
@@ -80,13 +76,24 @@ void draw() {
             strokeWeight(2);
             noFill();
             stroke(128);
-            beginShape();
+            //beginShape();
             for (int i=0; i<pointarray.length; i++) {
               strokeWeight(5);
               float x_val = pointarray[i].x;
               float y_val = pointarray[i].y; 
               point(x_val, y_val);
             }
+            if(DONE == true) {
+              noLoop();
+              println("HELLO");
+              beginShape();
+              ArrayList<PVector> temp = myMarch.convex_hull(pointarray);
+              for(int i=0; i<temp.size(); i++) {
+                vertex(temp.get(i).x, temp.get(i).y);
+                }
+              endShape(CLOSE);
+            }
+            if(DONE != true) {
             if (k>0 && myScans[k-1].done == true) {
 
               for (int i = 0; i < k; i++) {
@@ -108,6 +115,7 @@ void draw() {
                   vertex(temp2.x, temp2.y);
                 }
                 endShape(CLOSE);
+                DONE = true;
             }
             }
                  
@@ -115,6 +123,7 @@ void draw() {
             strokeWeight(2);
             println("K: " + k);
             hulls[k] = new ArrayList();
+            beginShape();
             for(int i = 0; i < myScans[k].M; i++) {
               vertex(myScans[k].pts[i].x, myScans[k].pts[i].y); 
                //println(i);
@@ -122,7 +131,7 @@ void draw() {
               PVector point = new PVector(myScans[k].pts[i].x, myScans[k].pts[i].y, 0);
               //println(point);
               hulls[k].add(point);
-              println("Hulls: " + hulls[0]);
+              //println("Hulls: " + hulls[0]);
             }
             
             endShape(myScans[k].done?CLOSE:OPEN);
@@ -134,21 +143,19 @@ void draw() {
             
             if(!myScans[k].done) {
               // current point of inspection
-              stroke(#ff66AA); fill(#ff66AA);
+              /*stroke(#ff66AA); fill(#ff66AA);
               PVector cur = myScans[k].pts[myScans[k].j];
               PVector start = myScans[k].pts[1];
               ellipse(cur.x, cur.y, 5, 5);
-              line(cur.x, cur.y, start.x, start.y);
+              line(cur.x, cur.y, start.x, start.y);*/
               myScans[k].next();
             }
             else {
                if((k+1)<myScans.length) {
                  k++;
                }
+            } 
             }
-
-       
- 
 }
 
 /* Generates a random set of points of size NUM_POINTS
@@ -158,8 +165,6 @@ void makePoints() {
   for (int i = 0; i < NUM_POINTS; i++) {
      double x_val = random(0, HEIGHT);
      double y_val = random(0, WIDTH);
-     /*stroke(10);
-     point((float)x_val, (float)y_val);*/
      PVector point = new PVector((float)x_val, (float)y_val);
      points.add(point);  
   } 
@@ -186,30 +191,24 @@ void convexHull() {
     arrayCopy(pointarray, i, miniHulls[count], 0, h);
     count++;
   }
-  for(int j =0; j<(miniHulls.length); j++) {
-    //println(miniHulls[j]);
-  }
+
 }
 
 
 
 
 
+/* CODE FOR GRAHAM SCAN */
+/* Adapted for Processing.js from Processing Graham Scan */
+/* http://www.cc.gatech.edu/grads/m/mluffel/2011/graham_scan/graham_scan.pde */
 
-/* I commented out the pvector and put it in the GrahamScan class */
-/*PVector[] pts;*/
 int N = 6;
-//GrahamScan scan;
-//import java.util.Arrays;
-//import java.util.Comparator;
 
 class GrahamScan {
   PVector[] pts;
   int M, j;
   boolean done;
-  void draw() {
-    println("HEYYYY");
-  }
+
   void setup() {
     done = false;
     // find index of topmost point
@@ -286,5 +285,59 @@ void mousePressed() {
 
 
 
+/* CODE FOR JARVIS MARCH */
+/* Adapted for Processing from a Python program for the Jarvis March algorithm */
+/* Source: https://gist.github.com/tixxit/252222 */
 
+class Jarvis {
+  int TURN_LEFT=1;
+  int TURN_RIGHT=-1;
+  int TURN_NONE=0;
+  
+  int turn(PVector p, PVector q, PVector r) {
+    double val=(q.x-p.x)*(r.y-p.y)-(r.x-p.x)*(q.y-p.y);
+    if(val<0) 
+      return -1;
+    else if(val>0)
+      return 1;
+    else
+      return 0;
+  }
+  
+  double dist(PVector p, PVector q) {
+    double dx=q.x - p.x;
+    double dy=q.y - p.y;
+    return (dx * dx * dy * dy);
+  }
+  PVector nextHullPt(PVector[] points, PVector p) {
+    PVector q=p;
+    for(int i=0; i<points.length; i++) {
+      PVector r=points[i];
+      int t=turn(p, q, r);
+      if (t==TURN_RIGHT || t==TURN_NONE && dist(p, r)>dist(p, q)) {
+        q = r;
+      }
+    }
+      return q;
+    }
+  ArrayList<PVector> convex_hull(PVector[] points) {
+    int min=0;
+    for(int i=0; i<points.length; i++) {
+      if(points[i].x<=points[min].x) {
+        min=i;
+      }
+    }
+    ArrayList<PVector> hull=new ArrayList();
+    hull.add(points[min]);
+    for(int i=0; i< hull.size(); i++) {
+      PVector temp=hull.get(i);
+      PVector q=nextHullPt(points, temp);
+      if (q.x!=hull.get(0).x && q.y!=hull.get(0).y) {
+        hull.add(q);
+      }
+    }
+    return hull;
+  }
+}
+  
 
