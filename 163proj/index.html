@@ -45,7 +45,7 @@
       <h4>Computing the Mini Hulls</h4>
       <p>The algorithm begins by partitioning the point set. The point set should be divided into subsets of size m, forming ceil(n/m) subsets. Each subset's convex hull can be computed in <i>O(mlogm)</i> using the Graham Scan. Therefore, this preprocessing step of computing the mini convex hulls is <i>O((n/m)(mlogm)</i>, or rather <i>O(nlogm)</i>. The animation below gives a visual idea of what this might look like. </p>
       <h4>Click sketch to re-run with a new, randomized point set.</h4>
-      <canvas data-processing-sources="chan/chan.pde chan/graham.pde chan/jarvis.pde"></canvas>
+      <div id="mycanvas"><canvas data-processing-sources="chan/chan.pde chan/graham.pde chan/jarvis.pde"></canvas></div>
     </div>
 
 
