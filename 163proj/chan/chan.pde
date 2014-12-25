@@ -9,6 +9,8 @@ int k;
 /* ADDED */
 GrahamScan[] myScans;
 ArrayList[] hulls;
+boolean DONE;
+Jarvis myMarch;
 
 int compare(PVector a, PVector b) {
   if (a.z < b.z)
@@ -17,16 +19,9 @@ int compare(PVector a, PVector b) {
     return 1;
   return 0;
 }
-/* JAVASCRIPT */
-/*function compare(a,b) {
-  if (a.z < b.z)
-     return -1;
-  if (a.z > b.z)
-    return 1;
-  return 0;
-};*/
 
 void setup() {
+  DONE = false;
   size(1000, 500); 
   background(51);
   strokeWeight(5);
@@ -36,12 +31,13 @@ void setup() {
   convexHull();
   hulls = new ArrayList[numSets];
   /* ADDED */
+  myMarch = new Jarvis();
   myScans = new GrahamScan[numSets];
   for(int i = 0; i < numSets; i++) {
     myScans[i] = new GrahamScan();
   }
   dataSetup();
-  frameRate(2);
+  frameRate(10);
    
 }
 
@@ -80,13 +76,29 @@ void draw() {
             strokeWeight(2);
             noFill();
             stroke(128);
-            beginShape();
+            //beginShape();
             for (int i=0; i<pointarray.length; i++) {
               strokeWeight(5);
               float x_val = pointarray[i].x;
               float y_val = pointarray[i].y; 
               point(x_val, y_val);
             }
+            if(DONE == true) {
+              frameRate(0.5);
+              stroke(76, 0, 163);
+              noLoop();
+              println("HELLO");
+              beginShape();
+              ArrayList<PVector> temp = myMarch.convex_hull(pointarray);
+              for(int i=0; i<temp.size(); i++) {
+                vertex(temp.get(i).x, temp.get(i).y);
+                }
+              endShape(CLOSE);
+            }
+            frameRate(10);
+            stroke(128);
+            strokeWeight(1);
+            //if(DONE != true) {
             if (k>0 && myScans[k-1].done == true) {
 
               for (int i = 0; i < k; i++) {
@@ -108,6 +120,7 @@ void draw() {
                   vertex(temp2.x, temp2.y);
                 }
                 endShape(CLOSE);
+                DONE = true;
             }
             }
                  
@@ -115,6 +128,7 @@ void draw() {
             strokeWeight(2);
             println("K: " + k);
             hulls[k] = new ArrayList();
+            beginShape();
             for(int i = 0; i < myScans[k].M; i++) {
               vertex(myScans[k].pts[i].x, myScans[k].pts[i].y); 
                //println(i);
@@ -122,7 +136,7 @@ void draw() {
               PVector point = new PVector(myScans[k].pts[i].x, myScans[k].pts[i].y, 0);
               //println(point);
               hulls[k].add(point);
-              println("Hulls: " + hulls[0]);
+              //println("Hulls: " + hulls[0]);
             }
             
             endShape(myScans[k].done?CLOSE:OPEN);
@@ -134,21 +148,19 @@ void draw() {
             
             if(!myScans[k].done) {
               // current point of inspection
-              stroke(#ff66AA); fill(#ff66AA);
+              /*stroke(#ff66AA); fill(#ff66AA);
               PVector cur = myScans[k].pts[myScans[k].j];
               PVector start = myScans[k].pts[1];
               ellipse(cur.x, cur.y, 5, 5);
-              line(cur.x, cur.y, start.x, start.y);
+              line(cur.x, cur.y, start.x, start.y);*/
               myScans[k].next();
             }
             else {
                if((k+1)<myScans.length) {
                  k++;
                }
-            }
-
-       
- 
+            } 
+            //s}
 }
 
 /* Generates a random set of points of size NUM_POINTS
@@ -158,8 +170,6 @@ void makePoints() {
   for (int i = 0; i < NUM_POINTS; i++) {
      double x_val = random(0, HEIGHT);
      double y_val = random(0, WIDTH);
-     /*stroke(10);
-     point((float)x_val, (float)y_val);*/
      PVector point = new PVector((float)x_val, (float)y_val);
      points.add(point);  
   } 
@@ -186,9 +196,7 @@ void convexHull() {
     arrayCopy(pointarray, i, miniHulls[count], 0, h);
     count++;
   }
-  for(int j =0; j<(miniHulls.length); j++) {
-    //println(miniHulls[j]);
-  }
+
 }
 
 
