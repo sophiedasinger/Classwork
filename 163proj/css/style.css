@@ -12,6 +12,11 @@ h4 {
 	font-size:1.5em;
 	color:#3b4b98;
 }
+
+#note p{
+	text-align: center;
+	font-size:1em;
+}
 #mycanvas {
 	margin-left: auto;
 	margin-right: auto;
@@ -58,6 +63,7 @@ a:hover {
 p {
 	font-family: 'raleway';
 	font-size: 1.5em;
+	text-align: justify;
 }
 
 
