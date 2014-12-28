@@ -172,7 +172,7 @@ void makePoints() {
 /* Generates point sets 
  */
 void convexHull() {
-  int h = 5;
+  int h = myVar;
   numSets = (int)(ceil((float)NUM_POINTS / (float)h));
 
   println(numSets);
