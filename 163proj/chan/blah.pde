@@ -2,9 +2,9 @@
 /* Adapted for Processing.js from Processing Graham Scan */
 /* http://www.cc.gatech.edu/grads/m/mluffel/2011/graham_scan/graham_scan.pde */
 
-int N = 6;
 
 class GrahamScan {
+  int N;
   PVector[] pts;
   int M, j;
   boolean done;
