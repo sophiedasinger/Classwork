@@ -35,16 +35,18 @@
     <div id="sticky-anchor"></div>
     <div class="row" id="nav">
                  <ul id="nav1">
-                  <li><a href="#">the algorithm</a></li>
-                  <li><a href="#">visualization</a></li>
-                  <li><a href="#">credits</a></li>
+                  <li><a href="#alg">the algorithm</a></li>
+                  <li><a href="#viz">visualization</a></li>
+                  <li><a href="#creds">credits</a></li>
                 </ul>              
     </div>
 
     <div class = 'container'>
       <hr><h3>Introduction</h3><hr> <p>For this project I have decided to do a demo of <a href='https://www.cs.ucsb.edu/~suri/cs235/ChanCH.pdf' class="link">Chan's algorithm.</a>   I will be focusing on the 2-dimensional case, although Chan's Algorithm achieves \(O(n \log h)\) time complexity in both 2- and 3-dimensional space, where h denotes the number of points on the hull. His algorithm employs two relatively simple convex hull algorithms, the <a href='http://en.wikipedia.org/wiki/Graham_scan' class='link'>Graham Scan</a> and the <a href='http://en.wikipedia.org/wiki/Gift_wrapping_algorithm' class='link'>Jarvis March</a>. In simple terms, Chan's Algorithm divides the points into subsets, and computes the convex hull of each point set using the Graham Scan. Then, using the Jarvis March, the convex hull of these mini convex hulls is computed by finding tangents between the hulls. </p>
+      <a name="alg"></a>
+
       <hr>
-      <h3>In Detail</h3>
+            <h3>In Detail</h3>
       <hr>
       <h4>Computing the Mini Hulls</h4>
       <p>The algorithm begins by partitioning the point set. The point set should be divided into subsets of size m, forming \(\left \lceil{n/m}\right \rceil \)subsets. Each subset's convex hull can be computed in \(O(m \log m)\)  using the Graham Scan. Therefore, this preprocessing step of computing the mini convex hulls is \(O((n/m)(m \log m))\), or rather \(O(n \log m)\) . The animation below gives a visual idea of what this might look like. </p>
@@ -64,6 +66,16 @@
 <p>Finding a single tangent takes \(O(\log m)\) time (bin. search), and therefore finding all the tangents from a single point will take \(O ((n/m) (\log m))\) time.</p>
   <h4>Most importantly: What is <i>m</i>?</h4>
   <p>In order to get an overall time complexity of \(O(n \log h)\), the value chosen for \(m\) must be the number of points on the convex hull. Why is this true? As stated earlier, the Graham Scan step takes \(O(n \log m)\) - we get a time complexity of \(O (n\log h)\) if \(m = h\). For the Jarvis March step, we currently have a time complexity of \(O(h \cdot (n/m) (\log m))\), which is equivalent to \(O(n \log h)\) if \(m = h\). Chan's Algorithm states that we can make a guess for \(m\) and if it is insufficient, we can start the algorithm over again with a larger value for \(m\). In <a href="https://www.cs.ucsb.edu/~suri/cs235/ChanCH.pdf" class='link'>his paper</a> (pg. 363) he suggests beginning with \(m = 2^{2^t}\), where \(t = 1\). If the number of wrapping steps exceeds \(m\), restart and increment \(t\).   </p>
+  <a name="viz"></a>
+  <hr>
+  <h3>Visualization</h3>
+  <hr>
+  <div id="visual"></div>
+<a name="creds"></a>
+
+  <hr>
+  <h3>Credits</h3>
+  <hr>
 </div>
   
 
