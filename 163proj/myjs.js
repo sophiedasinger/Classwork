@@ -1,4 +1,4 @@
-var myVar = 5;
+var myVar =5;
 
 function sticky_relocate() {
     var window_top = $(window).scrollTop();
@@ -13,4 +13,9 @@ function sticky_relocate() {
 $(function () {
     $(window).scroll(sticky_relocate);
     sticky_relocate();
+});
+
+
+$(".dropdown-menu li a").click( function() {
+    var myVar= $(this).text();
 });

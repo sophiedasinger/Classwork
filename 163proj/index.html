@@ -45,6 +45,19 @@
       <h4>Computing the Mini Hulls</h4>
       <p>The algorithm begins by partitioning the point set. The point set should be divided into subsets of size m, forming ceil(n/m) subsets. Each subset's convex hull can be computed in <i>O(mlogm)</i> using the Graham Scan. Therefore, this preprocessing step of computing the mini convex hulls is <i>O((n/m)(mlogm)</i>, or rather <i>O(nlogm)</i>. The animation below gives a visual idea of what this might look like. </p>
       <div id="note"><p>[Click sketch to re-run with a new, randomized point set]</p></div>
+      <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                  Dropdown
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">4</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">8</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">16</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">32</a></li>
+                </ul>
+              </div>
+
       <div id="mycanvas"><canvas data-processing-sources="chan/chan.pde chan/graham.pde chan/jarvis.pde"></canvas></div>
       <h4>Executing the Jarvis March</h4>
       <p>Subsequently, the Jarvis March must be performed to find the all-encompassing convex hull of the point set. Typically, the Jarvis March has a time complexity of O(n^2) - however, in this case, </p>
