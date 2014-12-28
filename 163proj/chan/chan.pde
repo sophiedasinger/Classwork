@@ -1,4 +1,4 @@
-int NUM_POINTS = 37;
+int NUM_POINTS = 30;
 ArrayList<PVector> points;
 PVector[] pointarray;
 int WIDTH = 500;
@@ -172,7 +172,7 @@ void makePoints() {
 /* Generates point sets 
  */
 void convexHull() {
-  int h = 4;
+  int h = 6;
   numSets = (int)(ceil((float)NUM_POINTS / (float)h));
 
   println(numSets);

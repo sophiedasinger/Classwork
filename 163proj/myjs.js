@@ -15,7 +15,3 @@ $(function () {
     sticky_relocate();
 });
 
-
-$(".dropdown-menu li a").click( function() {
-    var myVar= $(this).text();
-});

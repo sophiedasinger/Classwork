@@ -32,7 +32,7 @@ h4 {
 
 
 }
-ul
+#nav1 
 {
     list-style-type: none;
     text-align: center;
@@ -40,7 +40,7 @@ ul
     margin-bottom: auto;
 }
 
-li {
+#nav1 li {
 	display:inline;
 	font-family: 'raleway';
 	color:white;
@@ -85,5 +85,21 @@ p {
 h3 {
 	font-family: 'raleway';
 	text-align: center;
+}
+
+#list {
+	color:black;
+	font-family:'raleway';
+	font-size:1.5em;
+	}
+
+#jarvispic {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#jarvispic img {
+
+	height:300px;
 }
 
