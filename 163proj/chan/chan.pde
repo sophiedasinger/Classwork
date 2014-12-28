@@ -36,6 +36,8 @@ void setup() {
     colors[i].g = random(255);
     colors[i].b = random(255);
   }
+  numSets = 0;
+  numHulls = 0;
   DONE = false;
   points = new ArrayList();
   k = 0;
