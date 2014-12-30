@@ -1,3 +1,6 @@
+/* JARVIS MARCH */
+/* Code adapted for processing.js from https://gist.github.com/tixxit/252222 */
+
 class Jarvis {
   int TURN_LEFT=1;
   int TURN_RIGHT=-1;

@@ -10,12 +10,12 @@ int k;
 GrahamScan[] myScans;
 ArrayList[] hulls;
 boolean DONE;
-Jarvis myMarch;
 class aColor {
  float r, g, b;
 }
 aColor[] colors;
 int h;
+boolean START;
   
 /* Compare function to be used by sort */
 int compare(PVector a, PVector b) {
@@ -46,8 +46,6 @@ void setup() {
   makePoints();
   convexHull();
   hulls = new ArrayList[numSets];
-  /* ADDED */
-  myMarch = new Jarvis();
   myScans = new GrahamScan[numSets];
   for(int i = 0; i < numSets; i++) {
     if(miniHulls[i].length > 3) {
@@ -79,7 +77,7 @@ void dataSetup() {
 
 
 
-void draw() {
+void draw() {            
             background(255);
             ellipseMode(RADIUS);
             smooth();
@@ -103,10 +101,8 @@ void draw() {
                 }
                 endShape(CLOSE);
               }
-
-
             }
-
+            if(START == true) {
             strokeWeight(1);
             if (k > 0 && myScans[k-1].done == true) {
               drawPreviousHulls();            
@@ -118,6 +114,7 @@ void draw() {
             else if ((k+1) < numHulls){
                  k++;
             } 
+            }
 }
 
 
@@ -158,6 +155,7 @@ void drawCurrentHull() {
     }            
     endShape(myScans[k].done?CLOSE:OPEN);            
 }
+
 /* Generates a random set of points of size NUM_POINTS
  * How do I make sure that these points are in general position?
  */
@@ -194,7 +192,10 @@ void convexHull() {
 }
 
 void mousePressed() {
-  setup();
+  if(START == true) {
+    setup();
+  }
+  START = true;
 }
 
 
@@ -284,54 +285,4 @@ boolean cw(PVector p1, PVector p2, PVector p3) {
 
 
 
-class Jarvis {
-  int TURN_LEFT=1;
-  int TURN_RIGHT=-1;
-  int TURN_NONE=0;
-  int turn(PVector p, PVector q, PVector r) {
-    double val = (q.x-p.x)*(r.y-p.y)-(r.x-p.x)*(q.y-p.y);
-    if(val<0) 
-      return -1;
-    else if(val>0)
-      return 1;
-    else
-      return 0;
-  }
-  
-  double dist(PVector p, PVector q) {
-    double dx = q.x - p.x;
-    double dy = q.y - p.y;
-    return (dx * dx * dy * dy);
-  }
-  PVector nextHullPt(PVector[] points, PVector p) {
-    PVector q = p;
-    for(int i = 0; i < points.length; i++) {
-      PVector r = points[i];
-      int t = turn(p, q, r);
-      if (t==TURN_RIGHT || t==TURN_NONE && dist(p, r) > dist(p, q)) {
-        q = r;
-      }
-    }
-      return q;
-    }
-  ArrayList<PVector> convex_hull(PVector[] points) {
-    int min = 0;
-    for(int i=0; i < points.length; i++) {
-      if(points[i].x <= points[min].x) {
-        min = i;
-      }
-    }
-    ArrayList<PVector> hull = new ArrayList();
-    hull.add(points[min]);
-    for(int i = 0; i< hull.size(); i++) {
-      PVector temp = hull.get(i);
-      PVector q = nextHullPt(points, temp);
-      if (q.x != hull.get(0).x && q.y != hull.get(0).y) {
-        hull.add(q);
-      }
-    }
-    return hull;
-  }
-}
-  
 
