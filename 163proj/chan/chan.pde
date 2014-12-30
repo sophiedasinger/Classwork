@@ -103,17 +103,17 @@ void draw() {
               }
             }
             if(START == true) {
-            strokeWeight(1);
-            if (k > 0 && myScans[k-1].done == true) {
-              drawPreviousHulls();            
-            }
-            drawCurrentHull();                    
-            if(!myScans[k].done) {
-              myScans[k].next();
-            }
-            else if ((k+1) < numHulls){
-                 k++;
-            } 
+                strokeWeight(1);
+                if (k > 0 && myScans[k-1].done == true) {
+                  drawPreviousHulls();            
+                }
+                drawCurrentHull();                    
+                if(!myScans[k].done) {
+                  myScans[k].next();
+                }
+                else if ((k+1) < numHulls){
+                     k++;
+                } 
             }
 }
 
