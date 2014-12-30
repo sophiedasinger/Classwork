@@ -15,7 +15,7 @@ class aColor {
  float r, g, b;
 }
 aColor[] colors;
-int h;
+
 boolean START;
   
 /* Compare function to be used by sort */
