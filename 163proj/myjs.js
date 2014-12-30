@@ -15,8 +15,8 @@ $(function () {
 });
 
 
-function autoRun() { 
-        setTimeout('autoRun()',200);
-        console.log(h);
-    }
+var myFunction = function() { console.log(h);};
 
+document.onLoad = function() {
+	setInterval(myFunction, 10);
+}
