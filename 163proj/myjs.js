@@ -1,3 +1,4 @@
+var prevh = 4;
 var h;
 function sticky_relocate() {
     var window_top = $(window).scrollTop();
@@ -14,6 +15,8 @@ $(function () {
     sticky_relocate();
 });
 
-Object.observe(h, function(changes) {
-  console.log("changes");
-});
+if(h!=prevh) {
+	console.log("changed!");
+	prevh = h;
+}
+
