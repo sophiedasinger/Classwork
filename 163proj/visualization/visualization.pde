@@ -29,9 +29,10 @@ int compare(PVector a, PVector b) {
 
 void setup() {
   h = 4;
+  
   size(1000, 500); 
   strokeWeight(5);
-  frameRate(5);
+  frameRate(3);
   colors = new aColor[20];
   for(int i = 0; i < 20; i++) {
     colors[i] = new aColor();
@@ -81,10 +82,13 @@ void dataSetup() {
 
 
 void draw() {
+            
             background(255);
             ellipseMode(RADIUS);
             smooth();
             noFill();
+            text("HI", 5, 5);
+            float m = millis();
             for (int i=0; i<pointarray.length; i++) {
               stroke(0, 0, 0);
               strokeWeight(5);
@@ -106,6 +110,7 @@ void draw() {
               }
               ArrayList<PVector> temp = myMarch.convex_hull(pointarray);
               if(temp.size() > h) {
+
                 /* increment h */
                 h = h * 2;
                 convexHull();
@@ -122,6 +127,7 @@ void draw() {
                 DONE = false;
               }
               else {
+                  strokeWeight(1.5);
                   noLoop();
                   beginShape();
                   for(int i = 0; i < temp.size(); i++) {
@@ -224,6 +230,15 @@ void mousePressed() {
     setup();
   }
   START = true;
+}
+
+void myDelay(int ms)
+{
+   try
+  {    
+    Thread.sleep(ms);
+  }
+  catch(Exception e){}
 }
 
 
