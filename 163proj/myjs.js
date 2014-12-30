@@ -14,9 +14,10 @@ $(function () {
     $(window).scroll(sticky_relocate);
     sticky_relocate();
 });
-
-if(h!=prevh) {
+window.setInterval(function() {if(h!=prevh) {
 	console.log("changed!");
 	prevh = h;
-}
+}}
+, 100);
+
 
