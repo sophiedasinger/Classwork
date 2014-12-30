@@ -16,6 +16,7 @@ class aColor {
 }
 aColor[] colors;
 int h;
+boolean START;
   
 /* Compare function to be used by sort */
 int compare(PVector a, PVector b) {
@@ -92,12 +93,9 @@ void draw() {
               point(x_val, y_val);
             }
             if(DONE == true) {
-
-              //println("I'm here!");
               /* Account for extra hull that hasn't been "graham scanned" 
                  because it had <= 3 points */
               if(numHulls < numSets) {
-                //print("not good\n");
                 beginShape();
                 strokeWeight(1);
                 stroke(colors[numSets-1].r, colors[numSets-1].g, colors[numSets-1].b);
@@ -106,12 +104,9 @@ void draw() {
                 }
                 endShape(CLOSE);
               }
-              //print("HERE\n");
               ArrayList<PVector> temp = myMarch.convex_hull(pointarray);
               if(temp.size() > h) {
-                println("H: " + h);
                 /* increment h */
-                //println("Incrementing h\n");
                 h = h * 2;
                 convexHull();
                 numHulls = 0;   
@@ -127,29 +122,28 @@ void draw() {
                 DONE = false;
               }
               else {
-                  print("Doing Jarvis\n");
                   noLoop();
                   beginShape();
                   for(int i = 0; i < temp.size(); i++) {
-                    //println(temp[i].x);
                     vertex(temp.get(i).x, temp.get(i).y);
                   }
                   endShape(CLOSE);
                   loop();
               }
             }
-
-            strokeWeight(1);
-            if (k > 0 && myScans[k-1].done == true) {
-              drawPreviousHulls();            
+            if(START == true) {
+                strokeWeight(1);
+                if (k > 0 && myScans[k-1].done == true) {
+                  drawPreviousHulls();            
+                }
+                drawCurrentHull();                    
+                if(!myScans[k].done) {
+                  myScans[k].next();
+                }
+                else if ((k+1) < numHulls){
+                     k++;
+                } 
             }
-            drawCurrentHull();                    
-            if(!myScans[k].done) {
-              myScans[k].next();
-            }
-            else if ((k+1) < numHulls){
-                 k++;
-            } 
 }
 
 
@@ -208,8 +202,6 @@ void makePoints() {
  */
 void convexHull() {
   numSets = (int)(ceil((float)NUM_POINTS / (float)h));
-
-  //println(numSets);
   miniHulls = new PVector[numSets][];
   int count = 0;
   int i;
@@ -228,7 +220,10 @@ void convexHull() {
 }
 
 void mousePressed() {
-  setup();
+  if(START == true) {
+    setup();
+  }
+  START = true;
 }
 
 

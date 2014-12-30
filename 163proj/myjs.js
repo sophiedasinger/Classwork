@@ -1,5 +1,3 @@
-var myVar =5;
-
 function sticky_relocate() {
     var window_top = $(window).scrollTop();
     var div_top = $('#sticky-anchor').offset().top;
@@ -15,3 +13,6 @@ $(function () {
     sticky_relocate();
 });
 
+Object.observe(h, function(changes) {
+  console.log("changes");
+});
