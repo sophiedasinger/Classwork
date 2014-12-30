@@ -1,4 +1,4 @@
-int NUM_POINTS = 40;
+int NUM_POINTS = 30;
 ArrayList<PVector> points;
 PVector[] pointarray;
 int WIDTH = 500;
@@ -27,7 +27,7 @@ int compare(PVector a, PVector b) {
 }
 
 void setup() {
-  h = 4;
+  h = 5;
   size(1000, 500); 
   strokeWeight(5);
   frameRate(5);
@@ -92,12 +92,9 @@ void draw() {
               point(x_val, y_val);
             }
             if(DONE == true) {
-
-              //println("I'm here!");
               /* Account for extra hull that hasn't been "graham scanned" 
                  because it had <= 3 points */
               if(numHulls < numSets) {
-                //print("not good\n");
                 beginShape();
                 strokeWeight(1);
                 stroke(colors[numSets-1].r, colors[numSets-1].g, colors[numSets-1].b);
@@ -106,37 +103,8 @@ void draw() {
                 }
                 endShape(CLOSE);
               }
-              //print("HERE\n");
-              ArrayList<PVector> temp = myMarch.convex_hull(pointarray);
-              if(temp.size() > h) {
-                println("H: " + h);
-                /* increment h */
-                //println("Incrementing h\n");
-                h = h * 2;
-                convexHull();
-                numHulls = 0;   
-                for(int i = 0; i < numSets; i++) {
-                    if(miniHulls[i].length > 3) {
-                        myScans[i] = new GrahamScan();
-                        myScans[i].N = miniHulls[i].length;
-                        numHulls++;
-                    }
-                }
-                dataSetup();
-                k = 0;
-                DONE = false;
-              }
-              else {
-                  print("Doing Jarvis\n");
-                  noLoop();
-                  beginShape();
-                  for(int i = 0; i < temp.size(); i++) {
-                    //println(temp[i].x);
-                    vertex(temp.get(i).x, temp.get(i).y);
-                  }
-                  endShape(CLOSE);
-                  loop();
-              }
+
+
             }
 
             strokeWeight(1);
@@ -208,8 +176,6 @@ void makePoints() {
  */
 void convexHull() {
   numSets = (int)(ceil((float)NUM_POINTS / (float)h));
-
-  //println(numSets);
   miniHulls = new PVector[numSets][];
   int count = 0;
   int i;
